@@ -2,6 +2,8 @@
 
 A [CodexBar](https://github.com/steipete/CodexBar) **provider plugin** that shows how much you have spent on a [LiteLLM](https://docs.litellm.ai/) proxy — across **up to 3 virtual API keys** — in the macOS menu bar.
 
+![LiteLLM Spend in the CodexBar menu](docs/screenshot.jpg)
+
 ## What this is for
 
 Use this plugin when you have **several LiteLLM keys** (personal, team, different projects) and want a quick spend overview without opening the LiteLLM UI.
