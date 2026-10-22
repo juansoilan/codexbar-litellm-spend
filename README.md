@@ -14,13 +14,27 @@ For each configured key it shows:
 - A **daily spend** bar chart
 - Amounts in **EUR** when possible (ECB USD→EUR rate via [Frankfurter](https://www.frankfurter.app/)); otherwise USD
 
-### vs CodexBar’s built-in LiteLLM provider
+### Why not use the built-in LiteLLM provider?
+
+CodexBar already ships a **LiteLLM** provider. Use that when you have **one** virtual key and care mainly about **budgets / quotas** (personal and team limits, reset times).
+
+This plugin exists because the built-in provider has these limits:
+
+- **One API key only** — no multi-account spend in one place
+- Focus on **budget windows**, not day / 7d / month / 30d spend charts per key
+- Amounts stay in **USD** (no EUR conversion)
+- Optional model activity, but not the multi-key spend breakdown this plugin shows
 
 | | Built-in **LiteLLM** | This plugin (**LiteLLM Spend**) |
 | --- | --- | --- |
 | Keys | One | Up to three |
 | Focus | Budgets / quotas | Spend over time + charts |
 | Currency | USD | EUR when FX is available |
+
+**Corporate / enterprise LiteLLM proxies** often add extra restrictions (limited endpoints, key permissions, no usable budget fields, blocked `/user/info` or `/team/info`, etc.). On those setups the **built-in provider may fail or show little useful data**, while this plugin leans on spend/report and activity endpoints that many virtual keys *can* call.
+
+**Choose built-in LiteLLM** if you only need one key and budget %.  
+**Choose LiteLLM Spend** if you want up to three keys with historical spend, charts, EUR when FX is available, or if the built-in provider does not work well against your corporate proxy.
 
 ## Install
 
