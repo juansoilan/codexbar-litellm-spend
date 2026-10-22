@@ -1,15 +1,31 @@
 # CodexBar LiteLLM Spend
 
-CodexBar provider plugin that tracks **spend across up to 3 LiteLLM virtual keys**, with daily charts and USD→EUR conversion (ECB via [Frankfurter](https://www.frankfurter.app/)).
+A [CodexBar](https://github.com/steipete/CodexBar) **provider plugin** that shows how much you have spent on a [LiteLLM](https://docs.litellm.ai/) proxy — across **up to 3 virtual API keys** — in the macOS menu bar.
 
-This is separate from CodexBar’s built-in **LiteLLM** provider (single key + budgets). Use this when you want multi-account spend.
+## What this is for
 
-## Requirements
+Use this plugin when you have **several LiteLLM keys** (personal, team, different projects) and want a quick spend overview without opening the LiteLLM UI.
 
-- [CodexBar](https://github.com/steipete/CodexBar) with user provider plugins
-- A LiteLLM proxy URL and virtual API keys that can call `/key/info` (and spend/activity endpoints)
+For each configured key it shows:
+
+- Spend for **today**, **last 7 days**, **current month**, and **last 30 days**
+- **Lifetime** spend
+- Top models by cost
+- A **daily spend** bar chart
+- Amounts in **EUR** when possible (ECB USD→EUR rate via [Frankfurter](https://www.frankfurter.app/)); otherwise USD
+
+### vs CodexBar’s built-in LiteLLM provider
+
+| | Built-in **LiteLLM** | This plugin (**LiteLLM Spend**) |
+| --- | --- | --- |
+| Keys | One | Up to three |
+| Focus | Budgets / quotas | Spend over time + charts |
+| Currency | USD | EUR when FX is available |
 
 ## Install
+
+1. Install and open [CodexBar](https://github.com/steipete/CodexBar).
+2. Install the plugin file into CodexBar’s providers folder:
 
 ```bash
 mkdir -p ~/.config/codexbar/providers
@@ -17,28 +33,31 @@ curl -fsSL -o ~/.config/codexbar/providers/litellm-spend.js \
   https://raw.githubusercontent.com/juansoilan/codexbar-litellm-spend/main/litellm-spend.js
 ```
 
-Or copy `litellm-spend.js` into `~/.config/codexbar/providers/` manually.
+Alternatively, download [`litellm-spend.js`](./litellm-spend.js) from this repo and copy it to `~/.config/codexbar/providers/litellm-spend.js`.
 
-Reload CodexBar (or reopen Settings), then enable **LiteLLM Spend**.
+3. Quit and reopen CodexBar (or reload providers from Settings).
+4. Open **Settings → Providers**, find **LiteLLM Spend**, and enable it.
+5. When prompted, allow network access to your LiteLLM host and `api.frankfurter.dev`.
 
 ## Configure
 
-In **Settings → Providers → LiteLLM Spend**:
+In **Settings → Providers → LiteLLM Spend**, fill in:
 
-| Field | Description |
-| --- | --- |
-| Base URL | LiteLLM proxy origin (no trailing `/v1`) |
-| Account 1–3 label | Optional display name (empty → LiteLLM `key_alias` / `key_name`) |
-| Account 1–3 API key | LiteLLM virtual key |
+| Setting | Required | Description |
+| --- | --- | --- |
+| **Base URL** | Yes | Origin of your LiteLLM proxy, e.g. `https://litellm.example.com` (no `/v1` suffix) |
+| **Account 1–3 label** | No | Display name in the menu. If empty, the plugin uses the key’s LiteLLM alias |
+| **Account 1–3 API key** | At least one | LiteLLM virtual key (`sk-…`) |
 
-Approve network access when CodexBar prompts (proxy host + `api.frankfurter.dev`).
+You can leave Account 2 and 3 empty if you only need one key.
 
-## Notes
+Your keys must be allowed to call LiteLLM endpoints such as `/key/info` and spend/activity reports.
 
-- API key fields are plain text settings so the plugin can send a different `Authorization` header per account.
-- Treat keys as secrets; do not commit them.
-- Currency display uses the ECB USD/EUR rate when Frankfurter is reachable; otherwise amounts stay in USD.
+## Security notes
+
+- Keep API keys private. Do not commit them or paste them into public issues.
+- Key fields are stored as plain CodexBar settings so each account can use its own `Authorization` header.
 
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE).
